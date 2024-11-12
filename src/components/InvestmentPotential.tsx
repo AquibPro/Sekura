@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, Award, Users, BarChart } from 'lucide-react';
+import { TrendingUp, Award, Users, BarChart, Lightbulb } from 'lucide-react';
 
 export default function InvestmentPotential() {
   return (
@@ -41,7 +41,10 @@ export default function InvestmentPotential() {
         </div>
 
         <div className="mt-12 bg-teal-600 rounded-lg p-8 text-white transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-          <h3 className="text-2xl font-bold mb-4">Why Invest in Sekura?</h3>
+          <div className="flex items-center mb-4">
+            <Lightbulb className="h-8 w-8 mr-3 text-teal-200" />
+            <h3 className="text-2xl font-bold">Why Invest in Sekura?</h3>
+          </div>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <li className="flex items-start">
               <span className="flex-shrink-0 h-6 w-6 text-teal-200">✓</span>

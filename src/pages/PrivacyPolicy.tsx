@@ -38,7 +38,7 @@ export default function PrivacyPolicy() {
             <li>To enhance our platform functionality and optimize user experience.</li>
             <li>To communicate updates, marketing, and promotional content, which you may opt-out of at any time.</li>
             <li>To comply with legal and regulatory requirements and prevent fraud.</li>
-            <li>To conduct internal audits, data analysis, and research to improve Sekura’s security and performance.</li>
+            <li>To conduct internal audits, data analysis, and research to improve Sekura's security and performance.</li>
           </ul>
 
           <h2>3. Information Sharing and Disclosure</h2>
@@ -86,8 +86,8 @@ export default function PrivacyPolicy() {
 
           <h2>11. Contact Us</h2>
           <p>If you have any questions about this Privacy Policy or wish to exercise your data rights, please contact us at:</p>
-          <p>Email: privacy@sekura.io</p>
-          <p>Address: Sekura Inc., 123 Blockchain Blvd, Crypto City, CC 10101</p>
+          <p>Email: support@sekurachain.com</p>
+          <p>Address: Maharashtra, India</p>
         </div>
 
         <div className="mt-12 text-center">

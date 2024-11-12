@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fix horizontal scrollbar */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+/* Ensure content doesn't cause horizontal scroll */
+#root {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}

@@ -20,43 +20,43 @@ export default function Roadmap() {
           <div className="space-y-12">
             {[
               {
-                phase: "Phase 1",
-                title: "Foundation",
+                phase: "Phase 1 - Launch",
+                title: "Initial Setup & Liquidity",
                 items: [
-                  "Token Launch",
-                  "Initial Exchange Listings",
-                  "Community Building",
-                  "Security Audit"
+                  "Smart Contract Development & Audit ✓",
+                  "Initial Liquidity Pool Setup",
+                  "DEX Listing & Price Discovery",
+                  "Community Building Initiatives"
                 ]
               },
               {
                 phase: "Phase 2",
-                title: "Growth",
+                title: "Exchange Expansion",
                 items: [
-                  "Exchange Expansion",
-                  "Strategic Partnerships",
-                  "Staking Platform",
-                  "Mobile Wallet Development"
+                  "CEX Listings",
+                  "Market Making Partnerships",
+                  "Trading Volume Growth",
+                  "Marketing Campaign Launch"
                 ]
               },
               {
                 phase: "Phase 3",
-                title: "Expansion",
+                title: "Ecosystem Development",
                 items: [
-                  "DeFi Integration",
-                  "Cross-chain Development",
+                  "Payment Gateway Integration",
                   "Governance Implementation",
-                  "Marketing Expansion"
+                  "Strategic Partnerships",
+                  "Community DAO Formation"
                 ]
               },
               {
                 phase: "Phase 4",
-                title: "Evolution",
+                title: "Market Expansion",
                 items: [
-                  "Enterprise Solutions",
-                  "NFT Integration",
-                  "Metaverse Development",
-                  "Ecosystem Growth"
+                  "Major Exchange Listings",
+                  "Cross-chain Integration",
+                  "DeFi Protocol Partnerships",
+                  "Global Marketing Expansion"
                 ]
               }
             ].map((phase, index) => (
@@ -73,9 +73,9 @@ export default function Roadmap() {
                       {phase.items.map((item, i) => (
                         <li key={i} className="flex items-start">
                           <span className="h-6 w-6 flex-shrink-0 flex items-center justify-center rounded-full bg-teal-500 text-white text-sm">
-                            ✓
+                            {item.includes('✓') ? '✓' : (i + 1)}
                           </span>
-                          <span className="ml-3 text-gray-600">{item}</span>
+                          <span className="ml-3 text-gray-600">{item.replace(' ✓', '')}</span>
                         </li>
                       ))}
                     </ul>

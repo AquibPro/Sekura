@@ -81,8 +81,8 @@ export default function Disclaimer() {
 
           <h2>11. Contact Us</h2>
           <p>If you have any questions or concerns about this Disclaimer, or if you need further clarification on any of the points mentioned, please feel free to reach out to us:</p>
-          <p>Email: support@sekura.io</p>
-          <p>Address: Sekura Inc., 123 Blockchain Blvd, Crypto City, CC 10101</p>
+          <p>Email: support@sekurachain.com</p>
+          <p>Address: Maharashtra, India</p>
         </div>
 
         <div className="mt-12 text-center">

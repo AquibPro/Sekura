@@ -43,10 +43,10 @@ export default function TermsOfService() {
           <p>Cryptocurrency investments involve significant risks. Users should carefully consider their financial situation and risk tolerance before participating. Market volatility, regulatory changes, and technological risks are inherent to cryptocurrency. By using Sekura, you acknowledge these risks and agree to assume full responsibility for your actions.</p>
 
           <h2>6. Intellectual Property</h2>
-          <p>All intellectual property rights, including but not limited to trademarks, logos, and content on the Sekura platform, are the property of Sekura and protected by applicable intellectual property laws. Unauthorized use of Sekura’s intellectual property is strictly prohibited.</p>
+          <p>All intellectual property rights, including but not limited to trademarks, logos, and content on the Sekura platform, are the property of Sekura and protected by applicable intellectual property laws. Unauthorized use of Sekura's intellectual property is strictly prohibited.</p>
 
           <h2>7. Limitation of Liability</h2>
-          <p>To the fullest extent permitted by law, Sekura shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or assets, resulting from your use or inability to use the service. Sekura’s total liability in connection with these Terms shall not exceed the amount paid by you, if any, for accessing Sekura services.</p>
+          <p>To the fullest extent permitted by law, Sekura shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including but not limited to loss of profits, data, or assets, resulting from your use or inability to use the service. Sekura's total liability in connection with these Terms shall not exceed the amount paid by you, if any, for accessing Sekura services.</p>
 
           <h2>8. Indemnification</h2>
           <p>You agree to indemnify, defend, and hold harmless Sekura, its affiliates, and their respective directors, officers, employees, and agents from any claims, damages, losses, liabilities, and expenses arising from or related to your use of the Sekura platform, breach of these Terms, or violation of any rights of a third party.</p>
@@ -68,8 +68,8 @@ export default function TermsOfService() {
 
           <h2>14. Contact</h2>
           <p>If you have any questions or concerns regarding these Terms of Service, please contact us at:</p>
-          <p>Email: legal@sekura.io</p>
-          <p>Address: Sekura Inc., 123 Blockchain Blvd, Crypto City, CC 10101</p>
+          <p>Email: support@sekurachain.com</p>
+          <p>Address: Maharashtra, India</p>
         </div>
 
         <div className="mt-12 text-center">

@@ -1,5 +1,6 @@
+{/* Previous imports and component setup remain the same */}
 import React, { useState, useEffect } from 'react';
-import { Copy, Upload, X } from 'lucide-react';
+import { Copy, Upload, X, Check } from 'lucide-react';
 import CountrySelect from '../components/CountrySelect';
 import Captcha from '../components/Captcha';
 import Snackbar from '../components/Snackbar';
@@ -29,18 +30,21 @@ export default function ContributePage() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarType, setSnackbarType] = useState<'success' | 'error'>('error');
   const [showThankYou, setShowThankYou] = useState(false);
+  const [isCopied, setIsCopied] = useState({ eth: false, btc: false });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const copyToClipboard = (text: string) => {
+  const copyToClipboard = (text: string, type: 'eth' | 'btc') => {
     navigator.clipboard.writeText(text);
-    setSnackbarMessage('Address copied to clipboard');
-    setSnackbarType('success');
-    setShowSnackbar(true);
+    setIsCopied(prev => ({ ...prev, [type]: true }));
+    setTimeout(() => {
+      setIsCopied(prev => ({ ...prev, [type]: false }));
+    }, 3000);
   };
 
+  // Rest of the helper functions remain the same
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -144,20 +148,76 @@ export default function ContributePage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">Contribute to Sekura</h2>
 
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">Contribution Address</h3>
-            <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
-              <code className="text-sm break-all">0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488</code>
-              <button
-                onClick={() => copyToClipboard('0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488')}
-                className="ml-2 p-2 text-teal-600 hover:text-teal-700"
-              >
-                <Copy className="h-5 w-5" />
-              </button>
+          <div className="mb-8 space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Wallet Address</h3>
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                <code className="text-sm break-all">0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488</code>
+                <button
+                  onClick={() => copyToClipboard('0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488', 'eth')}
+                  className="ml-2 p-2 text-teal-600 hover:text-teal-700 transition-all duration-500"
+                  title="Copy Address"
+                >
+                  {isCopied.eth ? (
+                    <Check className="h-5 w-5 transform transition-all duration-500" />
+                  ) : (
+                    <Copy className="h-5 w-5 transform transition-all duration-500" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Supported Tokens:</h4>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  Ethereum (ETH)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  USDT (ERC20 & BEP20)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  USDC (ERC20 & BEP20)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  TRON (ERC20)
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  BNB
+                </li>
+                <li className="flex items-center">
+                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
+                  Bitcoin (BTC)
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Bitcoin Address</h3>
+              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
+                <code className="text-sm break-all">bc1qpl6vdh9awp6pxhmg4zyghnm5q727r20fay22aa</code>
+                <button
+                  onClick={() => copyToClipboard('bc1qpl6vdh9awp6pxhmg4zyghnm5q727r20fay22aa', 'btc')}
+                  className="ml-2 p-2 text-teal-600 hover:text-teal-700 transition-all duration-500"
+                  title="Copy Address"
+                >
+                  {isCopied.btc ? (
+                    <Check className="h-5 w-5 transform transition-all duration-500" />
+                  ) : (
+                    <Copy className="h-5 w-5 transform transition-all duration-500" />
+                  )}
+                </button>
+              </div>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Rest of the form remains the same */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">

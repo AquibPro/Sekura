@@ -30,7 +30,7 @@ export default function Whitepaper() {
           <p>Existing tokens often lack mechanisms to ensure long-term value retention and community engagement. Additionally, many assets face security vulnerabilities, making them less attractive to new investors. Sekura addresses these issues by incorporating automated mechanisms for burn and mint and implementing advanced governance and security features.</p>
 
           <h2>Solution Overview</h2>
-          <p>Sekura’s advanced ERC20-based token is designed to maintain long-term value and adaptability. With a focus on transparency, security, and sustainability, Sekura integrates automated burns to reduce supply, multi-signature wallets for governance, and community-driven decision-making.</p>
+          <p>Sekura's advanced ERC20-based token is designed to maintain long-term value and adaptability. With a focus on transparency, security, and sustainability, Sekura integrates automated burns to reduce supply, multi-signature wallets for governance, and community-driven decision-making.</p>
 
           <h2>Technical Specifications</h2>
           <ul>
@@ -48,14 +48,14 @@ export default function Whitepaper() {
             <li>Development: 20%</li>
             <li>Team & Advisory: 10%</li>
           </ul>
-          <p>The Sekura token (SKU) facilitates secure transactions within the ecosystem, rewards holders, and enables participation in governance. Through staking and holding, users gain voting rights, which empowers them to influence project direction.</p>
+          <p>The Sekura token (SKU) facilitates secure transactions within the ecosystem, rewards holders, and enables participation in governance. Through holding tokens, users gain voting rights, which empowers them to influence project direction.</p>
 
           <h2>Use Cases</h2>
           <ul>
-            <li><strong>Staking Rewards:</strong> Users can stake SKU tokens to earn rewards while securing the network.</li>
             <li><strong>Governance:</strong> Token holders participate in protocol governance through voting mechanisms.</li>
             <li><strong>DeFi Integration:</strong> Sekura tokens can be used across various DeFi platforms for trading, lending, and borrowing.</li>
             <li><strong>Marketplace Access:</strong> Exclusive access to digital assets and platforms using SKU as a transaction currency.</li>
+            <li><strong>Liquidity Provision:</strong> Participate in liquidity pools to support the ecosystem's growth and earn rewards.</li>
           </ul>
 
           <h2>Technology</h2>
@@ -84,11 +84,11 @@ export default function Whitepaper() {
           </ul>
 
           <h2>Roadmap</h2>
-          <p>Sekura’s development will proceed across several phases:</p>
+          <p>Sekura's development will proceed across several phases:</p>
           <ul>
-            <li><strong>Phase 1 - Launch:</strong> Token launch, listing on major exchanges, initial staking features.</li>
-            <li><strong>Phase 2 - DeFi Integration:</strong> Incorporate Sekura into major DeFi platforms, providing staking and yield farming.</li>
-            <li><strong>Phase 3 - Cross-Chain Capabilities:</strong> Expand Sekura’s reach through integration with multiple blockchain networks.</li>
+            <li><strong>Phase 1 - Launch:</strong> Token launch, listing on major exchanges, initial community building.</li>
+            <li><strong>Phase 2 - DeFi Integration:</strong> Incorporate Sekura into major DeFi platforms and expand utility.</li>
+            <li><strong>Phase 3 - Cross-Chain Capabilities:</strong> Expand Sekura's reach through integration with multiple blockchain networks.</li>
             <li><strong>Phase 4 - Enterprise Solutions:</strong> Build partnerships with enterprise solutions requiring secure digital assets.</li>
             <li><strong>Phase 5 - Metaverse Expansion:</strong> Introduce Sekura as a primary transaction token in digital and metaverse environments.</li>
           </ul>
@@ -104,6 +104,11 @@ export default function Whitepaper() {
 
           <h2>Conclusion</h2>
           <p>Sekura aims to create a secure, resilient, and community-driven digital asset. By focusing on sustainable tokenomics, strong governance, and future-focused development, Sekura positions itself as a valuable token within the growing decentralized financial ecosystem.</p>
+
+          <h2>Contact Us</h2>
+          <p>If you have any questions or concerns regarding this whitepaper, please contact us at:</p>
+          <p>Email: support@sekurachain.com</p>
+          <p>Address: Maharashtra, India</p>
         </div>
 
         <div className="mt-12 text-center">
