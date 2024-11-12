@@ -15,7 +15,7 @@ export default function ValueProposition() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Enterprise Solutions</h3>
             <ul className="space-y-4">
               <li className="flex items-start">
@@ -33,7 +33,7 @@ export default function ValueProposition() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Individual Benefits</h3>
             <ul className="space-y-4">
               <li className="flex items-start">

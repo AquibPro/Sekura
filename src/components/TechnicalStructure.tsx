@@ -15,7 +15,7 @@ export default function TechnicalStructure() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <Shield className="h-6 w-6 text-teal-500 mr-2" />
               Consensus Mechanism
@@ -39,7 +39,7 @@ export default function TechnicalStructure() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <Code className="h-6 w-6 text-teal-500 mr-2" />
               Smart Contracts
@@ -63,7 +63,7 @@ export default function TechnicalStructure() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <Cpu className="h-6 w-6 text-teal-500 mr-2" />
               Network Architecture
@@ -87,7 +87,7 @@ export default function TechnicalStructure() {
             </ul>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center">
               <GitBranch className="h-6 w-6 text-teal-500 mr-2" />
               Development Framework

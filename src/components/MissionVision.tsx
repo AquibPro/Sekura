@@ -15,7 +15,7 @@ export default function MissionVision() {
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white mx-auto">
               <Target className="h-6 w-6" />
             </div>
@@ -25,7 +25,7 @@ export default function MissionVision() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white mx-auto">
               <Eye className="h-6 w-6" />
             </div>
@@ -35,7 +35,7 @@ export default function MissionVision() {
             </p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
+          <div className="bg-white rounded-lg shadow-lg p-8 transform transition-all duration-300 hover:scale-105 hover:shadow-xl">
             <div className="flex items-center justify-center h-12 w-12 rounded-md bg-teal-500 text-white mx-auto">
               <Shield className="h-6 w-6" />
             </div>
