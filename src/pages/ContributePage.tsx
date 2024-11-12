@@ -1,4 +1,3 @@
-{/* Previous imports and component setup remain the same */}
 import React, { useState, useEffect } from 'react';
 import { Copy, Upload, X, Check } from 'lucide-react';
 import CountrySelect from '../components/CountrySelect';
@@ -44,7 +43,6 @@ export default function ContributePage() {
     }, 3000);
   };
 
-  // Rest of the helper functions remain the same
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -190,10 +188,6 @@ export default function ContributePage() {
                   <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
                   BNB
                 </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  Bitcoin (BTC)
-                </li>
               </ul>
             </div>
 
@@ -217,7 +211,6 @@ export default function ContributePage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Rest of the form remains the same */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
