@@ -24,3 +24,23 @@ html, body {
     opacity: 0;
   }
 }
+
+/* Progress bar animation */
+@keyframes progress {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  50% {
+    width: 100%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-progress {
+  animation: progress 1s ease-in-out infinite;
+}

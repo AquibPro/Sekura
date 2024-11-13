@@ -4,7 +4,6 @@ import { TrendingUp, TrendingDown, Globe, Twitter, MessageCircle, ArrowLeft } fr
 import { fetchWithRetry, requestQueue } from '../utils/api';
 import { formatMarketCap } from '../utils/helpers';
 import CandlestickChart from '../components/CandlestickChart';
-import MarketStats from '../components/MarketStats';
 
 interface CoinData {
   id: string;
@@ -131,9 +130,7 @@ export default function CoinDetails() {
           Back to Market
         </Link>
 
-        <MarketStats />
-
-        <div className="bg-white rounded-lg shadow-lg p-8 mt-8">
+        <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="flex items-center mb-8">
             <img 
               src={coinData.image.large} 

@@ -54,15 +54,16 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   }, [displayText, currentIndex, isTyping, isPaused, texts, typingSpeed, deletingSpeed, pauseDuration]);
 
   return (
-    <div className="flex flex-wrap justify-center">
-      <div className="inline-flex flex-wrap justify-center items-center">
-        <div className="flex items-center whitespace-pre-wrap break-words">
-          <span>{displayText}</span>
-          <span 
-            className="inline-block w-[6px] bg-teal-200 ml-[4px] animate-[blink_1s_infinite]"
-            style={{ height: '1.2em' }}
+    <div className="flex justify-center">
+      <div className="inline-flex flex-wrap items-center">
+        <span className="relative">
+          {displayText}
+          <span
+            className="absolute top-0 -right-[12px] w-[4px] h-[1.2em] bg-teal-200 animate-[blink_1s_infinite]"
+            style={{ fontWeight: 700 }}
+            aria-hidden="true"
           />
-        </div>
+        </span>
       </div>
     </div>
   );

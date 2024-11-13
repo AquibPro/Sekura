@@ -1,83 +1,52 @@
 // API rate limit configuration
 const API_CONFIG = {
   retries: 3,
-  baseDelay: 1000,
+  baseDelay: 2000,
   maxDelay: 10000,
   backoffFactor: 2,
-  timeout: 30000, // 30 seconds timeout
+  timeout: 30000,
+  maxRequestsPerMinute: 30 // CoinGecko free tier limit
 };
 
-export async function fetchWithRetry(
-  url: string,
-  options: RequestInit = {},
-  config = API_CONFIG
-): Promise<Response> {
-  let lastError: any;
-  let delay = config.baseDelay;
-
-  for (let i = 0; i < config.retries; i++) {
-    try {
-      // Add random delay before each request to avoid rate limits
-      await new Promise(resolve => setTimeout(resolve, Math.random() * 1000));
-
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), config.timeout);
-
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal,
-        headers: {
-          'Accept': 'application/json',
-          'Cache-Control': 'no-cache',
-          ...options.headers,
-        }
-      });
-
-      clearTimeout(timeoutId);
-      
-      if (response.status === 429) {
-        const retryAfter = response.headers.get('Retry-After');
-        delay = retryAfter ? parseInt(retryAfter) * 1000 : Math.min(delay * config.backoffFactor, config.maxDelay);
-        await new Promise(resolve => setTimeout(resolve, delay));
-        continue;
-      }
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      return response;
-    } catch (error: any) {
-      lastError = error;
-      
-      if (error.name === 'AbortError') {
-        throw new Error('Request timed out');
-      }
-      
-      if (i < config.retries - 1) {
-        delay = Math.min(delay * config.backoffFactor, config.maxDelay);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-    }
-  }
-
-  throw lastError || new Error('Failed to fetch data after multiple retries');
-}
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Queue for managing API requests
 class RequestQueue {
   private queue: (() => Promise<void>)[] = [];
   private processing = false;
-  private interval = 1500; // 1.5 seconds between requests
+  private interval = 2000;
   private maxRetries = 3;
+  private requestCount = 0;
+  private lastRequestTime = Date.now();
+
+  private resetRequestCount() {
+    const now = Date.now();
+    if (now - this.lastRequestTime >= 60000) {
+      this.requestCount = 0;
+      this.lastRequestTime = now;
+    }
+  }
 
   async add<T>(request: () => Promise<T>, priority = false): Promise<T> {
     return new Promise((resolve, reject) => {
       const queueItem = async () => {
+        this.resetRequestCount();
+
+        if (this.requestCount >= API_CONFIG.maxRequestsPerMinute) {
+          const waitTime = 60000 - (Date.now() - this.lastRequestTime);
+          await sleep(waitTime);
+          this.resetRequestCount();
+        }
+
         let retries = 0;
+        let delay = API_CONFIG.baseDelay;
+
         while (retries < this.maxRetries) {
           try {
+            await sleep(Math.random() * 1000);
             const result = await request();
+            this.requestCount++;
+            this.lastRequestTime = Date.now();
             resolve(result);
             return;
           } catch (error) {
@@ -86,7 +55,8 @@ class RequestQueue {
               reject(error);
               return;
             }
-            await new Promise(resolve => setTimeout(resolve, 1000 * retries));
+            delay = Math.min(delay * API_CONFIG.backoffFactor, API_CONFIG.maxDelay);
+            await sleep(delay);
           }
         }
       };
@@ -118,10 +88,44 @@ class RequestQueue {
       } catch (error) {
         console.error('Queue processing error:', error);
       }
-      await new Promise(resolve => setTimeout(resolve, this.interval));
+      await sleep(this.interval);
       this.process();
     }
   }
 }
 
 export const requestQueue = new RequestQueue();
+
+export async function fetchWithRetry(
+  url: string,
+  options: RequestInit = {},
+  config = API_CONFIG
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), config.timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      headers: {
+        'Accept': 'application/json',
+        'Cache-Control': 'no-cache',
+        ...options.headers,
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+      throw new Error('Request timed out');
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
