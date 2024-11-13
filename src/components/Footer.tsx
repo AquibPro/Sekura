@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Twitter, 
   MessageCircle, 
@@ -14,10 +14,17 @@ import {
 } from 'lucide-react';
 
 export default function Footer() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const section = document.getElementById(sectionId);
-    section?.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      section?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -64,9 +71,9 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold">Legal</h3>
             <ul className="mt-4 space-y-2">
-              <li><Link to="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Privacy Policy</Link></li>
-              <li><Link to="/terms-of-service" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Terms of Service</Link></li>
-              <li><Link to="/disclaimer" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Disclaimer</Link></li>
+              <li><Link to="/privacy-policy" className="text-gray-400 hover:text-teal-500">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-gray-400 hover:text-teal-500">Terms of Service</Link></li>
+              <li><Link to="/disclaimer" className="text-gray-400 hover:text-teal-500">Disclaimer</Link></li>
               <li><a href="https://etherscan.io/token/0x33296Ecd13d422E071aA15F879759adf72dFC958" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Contract</a></li>
             </ul>
           </div>

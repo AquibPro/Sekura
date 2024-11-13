@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -19,11 +19,37 @@ import InvestmentPotential from './components/InvestmentPotential';
 import TechnicalStructure from './components/TechnicalStructure';
 import HowToBuy from './components/HowToBuy';
 import ContributeSection from './components/ContributeSection';
+import NewsAndBlogs from './components/NewsAndBlogs';
+import CryptoMarket from './components/CryptoMarket';
+import CoinDetails from './pages/CoinDetails';
+
+function ScrollToTop() {
+  const location = useLocation();
+  const { state } = location as { state: { scrollTo?: string } | null };
+
+  useEffect(() => {
+    if (state?.scrollTo) {
+      if (state.scrollTo === 'top') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setTimeout(() => {
+          const element = document.getElementById(state.scrollTo!);
+          element?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname, state]);
+
+  return null;
+}
 
 function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
+        <ScrollToTop />
         <Navbar />
         <Routes>
           <Route path="/" element={
@@ -39,6 +65,8 @@ function App() {
               <HowToBuy />
               <Security />
               <ContributeSection />
+              <NewsAndBlogs />
+              <CryptoMarket />
               <FAQ />
             </>
           } />
@@ -47,6 +75,7 @@ function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/disclaimer" element={<Disclaimer />} />
+          <Route path="/coin/:id" element={<CoinDetails />} />
         </Routes>
         <Footer />
       </div>

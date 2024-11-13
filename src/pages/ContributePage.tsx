@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Copy, Upload, X, Check } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 import CountrySelect from '../components/CountrySelect';
 import Captcha from '../components/Captcha';
 import Snackbar from '../components/Snackbar';
 import ThankYou from '../components/ThankYou';
-import { submitContribution } from '../utils/airtable';
+import ContributeDetails from '../components/ContributeDetails';
 
 export default function ContributePage() {
   const [formData, setFormData] = useState({
@@ -19,6 +19,7 @@ export default function ContributePage() {
     state: '',
     zipcode: '',
     walletAddress: '',
+    transactionHash: ''
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -124,15 +125,16 @@ export default function ContributePage() {
     setIsSubmitting(true);
 
     try {
-      await submitContribution({
-        ...formData,
-        screenshot: previewUrl || undefined
-      });
-
       setShowThankYou(true);
     } catch (error) {
       console.error('Form submission error:', error);
-      setSnackbarMessage('Failed to submit form. Please try again.');
+      let errorMessage = 'Failed to submit form. Please try again.';
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
+      setSnackbarMessage(errorMessage);
       setSnackbarType('error');
       setShowSnackbar(true);
     } finally {
@@ -146,69 +148,7 @@ export default function ContributePage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-8">Contribute to Sekura</h2>
 
-          <div className="mb-8 space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Wallet Address</h3>
-              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
-                <code className="text-sm break-all">0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488</code>
-                <button
-                  onClick={() => copyToClipboard('0x3425d4CF30f844e5070d9DDD2ea5bfef553C2488', 'eth')}
-                  className="ml-2 p-2 text-teal-600 hover:text-teal-700 transition-all duration-500"
-                  title="Copy Address"
-                >
-                  {isCopied.eth ? (
-                    <Check className="h-5 w-5 transform transition-all duration-500" />
-                  ) : (
-                    <Copy className="h-5 w-5 transform transition-all duration-500" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-4">
-              <h4 className="text-sm font-medium text-gray-700 mb-2">Supported Tokens:</h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  Ethereum (ETH)
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  USDT (ERC20 & BEP20)
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  USDC (ERC20 & BEP20)
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  TRON (ERC20)
-                </li>
-                <li className="flex items-center">
-                  <span className="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>
-                  BNB
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Bitcoin Address</h3>
-              <div className="flex items-center justify-between bg-gray-50 p-4 rounded-lg">
-                <code className="text-sm break-all">bc1qpl6vdh9awp6pxhmg4zyghnm5q727r20fay22aa</code>
-                <button
-                  onClick={() => copyToClipboard('bc1qpl6vdh9awp6pxhmg4zyghnm5q727r20fay22aa', 'btc')}
-                  className="ml-2 p-2 text-teal-600 hover:text-teal-700 transition-all duration-500"
-                  title="Copy Address"
-                >
-                  {isCopied.btc ? (
-                    <Check className="h-5 w-5 transform transition-all duration-500" />
-                  ) : (
-                    <Copy className="h-5 w-5 transform transition-all duration-500" />
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
+          <ContributeDetails isCopied={isCopied} onCopy={copyToClipboard} />
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -272,7 +212,7 @@ export default function ContributePage() {
                 />
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                   Phone Number *
                 </label>
@@ -409,6 +349,21 @@ export default function ContributePage() {
                     )}
                   </div>
                 </div>
+              </div>
+
+              <div className="md:col-span-2">
+                <label htmlFor="transactionHash" className="block text-sm font-medium text-gray-700">
+                  Transaction Hash/ID *
+                </label>
+                <input
+                  type="text"
+                  name="transactionHash"
+                  id="transactionHash"
+                  required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500"
+                  value={formData.transactionHash}
+                  onChange={handleInputChange}
+                />
               </div>
             </div>
 

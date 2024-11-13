@@ -53,65 +53,65 @@ export default function Tokenomics() {
 
         <div className="mt-16" ref={ref}>
           <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-500 to-teal-600 rounded-lg p-8 text-white">
-            <div className="grid grid-cols-5 gap-8 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8">
               <div className="flex flex-col items-center">
                 <CircleDollarSign className="h-8 w-8 mb-2" />
-                <p className="text-2xl font-bold">${fundsRaised.toLocaleString()}+</p>
-                <p className="mt-1 text-sm">Funds Raised</p>
+                <p className="text-lg md:text-2xl font-bold">${fundsRaised.toLocaleString()}+</p>
+                <p className="mt-1 text-xs md:text-sm">Funds Raised</p>
               </div>
               <div className="flex flex-col items-center">
                 <Coins className="h-8 w-8 mb-2" />
-                <p className="text-2xl font-bold">100B</p>
-                <p className="mt-1 text-sm">Total Supply</p>
+                <p className="text-lg md:text-2xl font-bold">100B</p>
+                <p className="mt-1 text-xs md:text-sm">Total Supply</p>
               </div>
               <div className="flex flex-col items-center">
                 <BarChart3 className="h-8 w-8 mb-2" />
-                <p className="text-2xl font-bold">1B</p>
-                <p className="mt-1 text-sm">Circulating Supply</p>
+                <p className="text-lg md:text-2xl font-bold">1B</p>
+                <p className="mt-1 text-xs md:text-sm">Circulating Supply</p>
               </div>
               <div className="flex flex-col items-center">
                 <Tag className="h-8 w-8 mb-2" />
-                <p className="text-2xl font-bold">SKU</p>
-                <p className="mt-1 text-sm">Token Ticker</p>
+                <p className="text-lg md:text-2xl font-bold">SKU</p>
+                <p className="mt-1 text-xs md:text-sm">Token Ticker</p>
               </div>
               <div className="flex flex-col items-center">
                 <Wallet className="h-8 w-8 mb-2" />
-                <p className="text-2xl font-bold">ERC20</p>
-                <p className="mt-1 text-sm">Token Standard</p>
+                <p className="text-lg md:text-2xl font-bold">ERC20</p>
+                <p className="mt-1 text-xs md:text-sm">Token Standard</p>
               </div>
             </div>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-4">
+          <div className="mt-16 grid grid-cols-1 gap-4 md:gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900">Public Sale</h3>
-                <p className="mt-2 text-3xl font-bold text-teal-600">40%</p>
-                <p className="mt-2 text-sm text-gray-500">Available for public distribution</p>
+                <p className="mt-2 text-2xl md:text-3xl font-bold text-teal-600">40%</p>
+                <p className="mt-2 text-xs md:text-sm text-gray-500">Available for public distribution</p>
               </div>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900">Liquidity Pool</h3>
-                <p className="mt-2 text-3xl font-bold text-teal-600">30%</p>
-                <p className="mt-2 text-sm text-gray-500">Reserved for market liquidity</p>
+                <p className="mt-2 text-2xl md:text-3xl font-bold text-teal-600">30%</p>
+                <p className="mt-2 text-xs md:text-sm text-gray-500">Reserved for market liquidity</p>
               </div>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900">Development</h3>
-                <p className="mt-2 text-3xl font-bold text-teal-600">20%</p>
-                <p className="mt-2 text-sm text-gray-500">Future development & ecosystem</p>
+                <p className="mt-2 text-2xl md:text-3xl font-bold text-teal-600">20%</p>
+                <p className="mt-2 text-xs md:text-sm text-gray-500">Future development & ecosystem</p>
               </div>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-lg">
               <div className="text-center">
                 <h3 className="text-lg font-semibold text-gray-900">Team & Advisory</h3>
-                <p className="mt-2 text-3xl font-bold text-teal-600">10%</p>
-                <p className="mt-2 text-sm text-gray-500">Team allocation & advisors</p>
+                <p className="mt-2 text-2xl md:text-3xl font-bold text-teal-600">10%</p>
+                <p className="mt-2 text-xs md:text-sm text-gray-500">Team allocation & advisors</p>
               </div>
             </div>
           </div>

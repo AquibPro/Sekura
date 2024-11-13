@@ -1,6 +1,7 @@
 import React from 'react';
 import { Coins } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import TypewriterText from './TypewriterText';
 
 export default function Hero() {
   const scrollToHowToBuy = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -8,6 +9,12 @@ export default function Hero() {
     const section = document.getElementById('how-to-buy');
     section?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  const typewriterTexts = [
+    'The Future of Secure Digital Assets',
+    'The Bridge to Your Digital Wealth',
+    'The Future of Decentralized Finance'
+  ];
 
   return (
     <div className="pt-20 bg-gradient-to-b from-teal-500 to-teal-700">
@@ -17,8 +24,10 @@ export default function Hero() {
             <Coins className="h-20 w-20 text-white" />
           </div>
           <h1 className="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl">
-            <span className="block">Welcome to Sekura</span>
-            <span className="block text-teal-200">The Future of Secure Digital Assets</span>
+            <span className="block mb-2">Welcome to Sekura</span>
+            <div className="block text-teal-200 min-h-[2em] sm:min-h-[1.5em] flex items-center justify-center">
+              <TypewriterText texts={typewriterTexts} />
+            </div>
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-teal-100 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             A revolutionary ERC20 token built on Ethereum blockchain, designed to transform DeFi with 

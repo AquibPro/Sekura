@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const section = document.getElementById(sectionId);
-    section?.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/', { state: { scrollTo: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      section?.scrollIntoView({ behavior: 'smooth' });
+    }
     setIsOpen(false);
+  };
+
+  const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/', { state: { scrollTo: 'top' } });
+    }
   };
 
   return (
@@ -17,8 +32,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center space-x-3">
-            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_2kkCFZ-eIjABcSfu94wiu-gSoz4QJynk_iJCfoNSV2nJCwS1KK6YcOOTDzGkz8YxJ-2e7Tmkj6nDLgTaR4in4sF5wxQhET7ahMk8Ox_-pS8wgW_ikj8DuV0eAbza3ZhRAdJZ0Ybld3uLjl0tHeWPiRjPtaV75GPNkG95MHJZ7EqnTAj4AxcW4Lf31k74/s499/sekura.png" alt="Sekura Logo" className="h-10 w-10 rounded-full" />
-            <Link to="/" className="text-2xl font-bold" style={{ color: 'rgb(39, 180, 208)' }}>Sekura</Link>
+            <Link 
+              to="/" 
+              onClick={handleLogoClick}
+              className="flex items-center space-x-3"
+            >
+              <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_2kkCFZ-eIjABcSfu94wiu-gSoz4QJynk_iJCfoNSV2nJCwS1KK6YcOOTDzGkz8YxJ-2e7Tmkj6nDLgTaR4in4sF5wxQhET7ahMk8Ox_-pS8wgW_ikj8DuV0eAbza3ZhRAdJZ0Ybld3uLjl0tHeWPiRjPtaV75GPNkG95MHJZ7EqnTAj4AxcW4Lf31k74/s499/sekura.png" alt="Sekura Logo" className="h-10 w-10 rounded-full" />
+              <span className="text-2xl font-bold" style={{ color: 'rgb(39, 180, 208)' }}>Sekura</span>
+            </Link>
           </div>
 
           {/* Desktop menu */}

@@ -62,6 +62,10 @@ export default function FAQ() {
     {
       question: "Do I need any special software or wallet to hold Sekura?",
       answer: "No special software is required. You only need an ERC20-compatible wallet like MetaMask, Trust Wallet, or any other Ethereum wallet. Make sure to always use official wallet sources and follow security best practices."
+    },
+    {
+      question: "How can I stay updated on Sekura news?",
+      answer: "You can stay updated on Sekura news through multiple channels: our official website's News section, our social media channels (Twitter, Telegram, Discord), and by subscribing to our newsletter. We regularly post updates about project developments, market insights, and community events."
     }
   ];
 
