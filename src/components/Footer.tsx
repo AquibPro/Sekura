@@ -7,7 +7,6 @@ import {
   Mail, 
   Globe, 
   Instagram,
-  Facebook,
   Linkedin,
   Clock,
   AlertCircle
@@ -41,16 +40,13 @@ export default function Footer() {
               <a href="https://t.me/sekurachain" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
                 <MessageCircle className="h-6 w-6" />
               </a>
-              <a href="https://discord.gg/sekurachain" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
+              <a href="https://discord.gg/w95N9bpk" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
                 <MessagesSquare className="h-6 w-6" />
               </a>
               <a href="https://instagram.com/sekurachain" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
                 <Instagram className="h-6 w-6" />
               </a>
-              <a href="https://facebook.com/sekurachain" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
-                <Facebook className="h-6 w-6" />
-              </a>
-              <a href="https://linkedin.com/company/sekurachain" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
+              <a href="https://www.linkedin.com/in/sekurachain/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">
                 <Linkedin className="h-6 w-6" />
               </a>
             </div>
@@ -64,13 +60,18 @@ export default function Footer() {
               <li><a href="#tokenomics" onClick={(e) => scrollToSection(e, 'tokenomics')} className="text-gray-400 hover:text-teal-500">Tokenomics</a></li>
               <li><a href="#roadmap" onClick={(e) => scrollToSection(e, 'roadmap')} className="text-gray-400 hover:text-teal-500">Roadmap</a></li>
               <li><a href="#how-to-buy" onClick={(e) => scrollToSection(e, 'how-to-buy')} className="text-gray-400 hover:text-teal-500">How to Buy</a></li>
-              <li><Link to="/whitepaper" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Whitepaper</Link></li>
+              <li><a href="#contribute" onClick={(e) => scrollToSection(e, 'contribute')} className="text-gray-400 hover:text-teal-500">Contribute to Sekura</a></li>
+              <li><a href="#news" onClick={(e) => scrollToSection(e, 'news')} className="text-gray-400 hover:text-teal-500">News & Insights</a></li>
+              <li><a href="#market" onClick={(e) => scrollToSection(e, 'market')} className="text-gray-400 hover:text-teal-500">Cryptocurrency Market</a></li>
+              <li><a href="#calculator" onClick={(e) => scrollToSection(e, 'calculator')} className="text-gray-400 hover:text-teal-500">Cryptocurrency Calculator</a></li>
+              <li><a href="#faq" onClick={(e) => scrollToSection(e, 'faq')} className="text-gray-400 hover:text-teal-500">FAQ</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold">Legal</h3>
             <ul className="mt-4 space-y-2">
+              <li><Link to="/whitepaper" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-500">Whitepaper</Link></li>
               <li><Link to="/privacy-policy" className="text-gray-400 hover:text-teal-500">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="text-gray-400 hover:text-teal-500">Terms of Service</Link></li>
               <li><Link to="/disclaimer" className="text-gray-400 hover:text-teal-500">Disclaimer</Link></li>

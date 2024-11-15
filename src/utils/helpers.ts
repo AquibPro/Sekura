@@ -6,3 +6,10 @@ export const formatMarketCap = (marketCap: number) => {
   if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(2)}M`;
   return `$${marketCap.toLocaleString()}`;
 };
+
+export const formatNumberWithCommas = (number: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 8
+  }).format(number);
+};

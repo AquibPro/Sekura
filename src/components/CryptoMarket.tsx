@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { TrendingUp, TrendingDown, Search, ChevronLeft, ChevronRight, ArrowUpDown, Star } from 'lucide-react';
 import { fetchWithRetry, requestQueue } from '../utils/api';
-import { formatMarketCap } from '../utils/helpers';
+import { formatMarketCap, formatNumberWithCommas } from '../utils/helpers';
 import MarketStats from './MarketStats';
 import FearGreedIndex from './FearGreedIndex';
 import CryptoCalculator from './CryptoCalculator';
@@ -16,10 +16,12 @@ interface Coin {
   market_cap: number;
   market_cap_rank: number;
   price_change_percentage_24h: number;
+  total_volume: number;
+  circulating_supply: number;
 }
 
 type ViewMode = 'all' | 'gainers' | 'losers' | 'watchlist';
-type SortOption = 'rank' | 'name' | 'price' | 'change' | 'marketCap';
+type SortOption = 'rank' | 'name' | 'price' | 'change' | 'marketCap' | 'volume';
 type SortDirection = 'asc' | 'desc';
 
 export default function CryptoMarket() {
@@ -112,6 +114,10 @@ export default function CryptoMarket() {
         return sortDirection === 'asc'
           ? a.market_cap - b.market_cap
           : b.market_cap - a.market_cap;
+      case 'volume':
+        return sortDirection === 'asc'
+          ? a.total_volume - b.total_volume
+          : b.total_volume - a.total_volume;
       default:
         return 0;
     }
@@ -154,7 +160,7 @@ export default function CryptoMarket() {
 
   if (loading) {
     return (
-      <section className="py-20 bg-white">
+      <section id="market" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4 mb-8"></div>
@@ -171,7 +177,7 @@ export default function CryptoMarket() {
 
   return (
     <>
-      <section className="py-20 bg-white">
+      <section id="market" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
@@ -222,7 +228,7 @@ export default function CryptoMarket() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for coins or symbol..."
+                  placeholder="Search coins..."
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-teal-500 focus:border-teal-500"
                 />
               </div>
@@ -239,6 +245,7 @@ export default function CryptoMarket() {
                   <option value="price">Price</option>
                   <option value="change">24h Change</option>
                   <option value="marketCap">Market Cap</option>
+                  <option value="volume">Volume</option>
                 </select>
                 <button
                   onClick={() => setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')}
@@ -311,7 +318,7 @@ export default function CryptoMarket() {
                             </Link>
                             <div className="col-span-2 text-right">
                               <div className="text-sm font-semibold text-gray-900">
-                                ${coin.current_price.toLocaleString()}
+                                ${formatNumberWithCommas(coin.current_price)}
                               </div>
                             </div>
                             <div className="col-span-2 text-right">

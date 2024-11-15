@@ -6,6 +6,7 @@ export default {
       animation: {
         blink: 'blink 1s step-end infinite',
         progress: 'progress 1s ease-in-out infinite',
+        'spin-slow': 'spin 3s linear infinite',
       },
     },
   },

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowDownUp, TrendingUp, TrendingDown, BarChart3, Clock, Search } from 'lucide-react';
+import { fetchWithRetry, requestQueue } from '../utils/api';
+import { formatNumberWithCommas } from '../utils/helpers';
 
 interface Crypto {
   id: string;
@@ -14,25 +16,25 @@ interface Fiat {
   code: string;
   name: string;
   symbol: string;
+  rate: number;
 }
 
-// Common fiat currencies with symbols
 const commonFiats: Fiat[] = [
-  { code: 'USD', name: 'US Dollar', symbol: '$' },
-  { code: 'EUR', name: 'Euro', symbol: '€' },
-  { code: 'GBP', name: 'British Pound', symbol: '£' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'Fr' },
-  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
-  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-  { code: 'NZD', name: 'New Zealand Dollar', symbol: 'NZ$' },
-  { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$' },
-  { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$' },
-  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
-  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
-  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+  { code: 'USD', name: 'US Dollar', symbol: '$', rate: 1 },
+  { code: 'EUR', name: 'Euro', symbol: '€', rate: 0.92 },
+  { code: 'GBP', name: 'British Pound', symbol: '£', rate: 0.79 },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥', rate: 150.14 },
+  { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', rate: 1.53 },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', rate: 1.36 },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'Fr', rate: 0.89 },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥', rate: 7.23 },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹', rate: 82.89 },
+  { code: 'NZD', name: 'New Zealand Dollar', symbol: 'NZ$', rate: 1.65 },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: 'S$', rate: 1.35 },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: 'HK$', rate: 7.82 },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩', rate: 1337.50 },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$', rate: 5.03 },
+  { code: 'RUB', name: 'Russian Ruble', symbol: '₽', rate: 92.50 }
 ];
 
 export default function CryptoCalculator() {
@@ -69,8 +71,10 @@ export default function CryptoCalculator() {
   useEffect(() => {
     const fetchCryptos = async () => {
       try {
-        const response = await fetch(
-          'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&sparkline=false'
+        const response = await requestQueue.add(() =>
+          fetchWithRetry(
+            'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=250&sparkline=false'
+          )
         );
 
         if (!response.ok) throw new Error('Failed to fetch cryptocurrencies');
@@ -108,7 +112,8 @@ export default function CryptoCalculator() {
     if (/^\d*\.?\d*$/.test(value)) {
       setCryptoAmount(value);
       if (exchangeRate) {
-        setFiatAmount((parseFloat(value || '0') * exchangeRate).toFixed(2));
+        const fiatValue = (parseFloat(value || '0') * exchangeRate * selectedFiat.rate);
+        setFiatAmount(isNaN(fiatValue) ? '0' : fiatValue.toFixed(2));
       }
     }
   };
@@ -117,7 +122,8 @@ export default function CryptoCalculator() {
     if (/^\d*\.?\d*$/.test(value)) {
       setFiatAmount(value);
       if (exchangeRate) {
-        setCryptoAmount((parseFloat(value || '0') / exchangeRate).toFixed(8));
+        const cryptoValue = (parseFloat(value || '0') / (exchangeRate * selectedFiat.rate));
+        setCryptoAmount(isNaN(cryptoValue) ? '0' : cryptoValue.toFixed(8));
       }
     }
   };
@@ -126,25 +132,23 @@ export default function CryptoCalculator() {
     setIsConverting(true);
     setSelectedCrypto(crypto);
     setExchangeRate(crypto.current_price);
-    setFiatAmount((parseFloat(cryptoAmount) * crypto.current_price).toFixed(2));
+    const fiatValue = parseFloat(cryptoAmount) * crypto.current_price * selectedFiat.rate;
+    setFiatAmount(isNaN(fiatValue) ? '0' : fiatValue.toFixed(2));
     setLastUpdated(new Date().toLocaleTimeString());
     setCryptoDropdownOpen(false);
     setIsConverting(false);
   };
 
   const handleFiatSelect = (fiat: Fiat) => {
-    if (selectedCrypto) {
-      setIsConverting(true);
-      setSelectedFiat(fiat);
-      // For simplicity, we'll use a basic conversion rate for other currencies
-      // In a production environment, you'd want to fetch real exchange rates
-      const rate = selectedCrypto.current_price * (fiat.code === 'USD' ? 1 : 1.2);
-      setExchangeRate(rate);
-      setFiatAmount((parseFloat(cryptoAmount) * rate).toFixed(2));
-      setLastUpdated(new Date().toLocaleTimeString());
-      setFiatDropdownOpen(false);
-      setIsConverting(false);
+    setIsConverting(true);
+    setSelectedFiat(fiat);
+    if (selectedCrypto && exchangeRate) {
+      const fiatValue = parseFloat(cryptoAmount) * exchangeRate * fiat.rate;
+      setFiatAmount(isNaN(fiatValue) ? '0' : fiatValue.toFixed(2));
     }
+    setLastUpdated(new Date().toLocaleTimeString());
+    setFiatDropdownOpen(false);
+    setIsConverting(false);
   };
 
   return (
@@ -290,64 +294,74 @@ export default function CryptoCalculator() {
 
             {exchangeRate && selectedCrypto && (
               <div className="mt-8 space-y-6">
+                {/* Conversion Result */}
                 <div className="bg-white rounded-xl p-6 shadow-md">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <BarChart3 className="h-6 w-6 text-teal-500 mr-2" />
-                        <span className="text-sm text-gray-500">Exchange Rate</span>
+                  <div className="text-center">
+                    <h3 className="text-lg font-medium text-gray-900 mb-4">Conversion Result</h3>
+                    <div className="flex items-center justify-center space-x-6">
+                      <div className="text-right">
+                        <div className="flex items-center justify-end">
+                          <span className="text-3xl font-bold text-gray-900 mr-3">
+                            {formatNumberWithCommas(parseFloat(cryptoAmount || '0'))}
+                          </span>
+                          <img
+                            src={selectedCrypto.image}
+                            alt={selectedCrypto.name}
+                            className="w-10 h-10 rounded-full"
+                          />
+                        </div>
+                        <p className="text-sm text-gray-500 mt-2">
+                          {selectedCrypto.name} ({selectedCrypto.symbol.toUpperCase()})
+                        </p>
                       </div>
-                      <p className="text-2xl font-bold text-gray-900">
-                        1 {selectedCrypto.symbol.toUpperCase()} =
-                      </p>
-                      <p className="text-3xl font-bold text-teal-600">
-                        {selectedFiat.symbol}{exchangeRate.toFixed(2)} {selectedFiat.code}
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        {selectedCrypto.price_change_percentage_24h >= 0 ? (
-                          <TrendingUp className="h-6 w-6 text-green-500 mr-2" />
-                        ) : (
-                          <TrendingDown className="h-6 w-6 text-red-500 mr-2" />
-                        )}
-                        <span className="text-sm text-gray-500">24h Change</span>
+                      <ArrowDownUp className="h-8 w-8 text-teal-500" />
+                      <div className="text-left">
+                        <p className="text-3xl font-bold text-teal-600">
+                          {selectedFiat.symbol}{formatNumberWithCommas(parseFloat(fiatAmount || '0'))} {selectedFiat.code}
+                        </p>
                       </div>
-                      <p className={`text-2xl font-bold ${
-                        selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'
-                      }`}>
-                        {selectedCrypto.price_change_percentage_24h >= 0 ? '+' : ''}
-                        {selectedCrypto.price_change_percentage_24h.toFixed(2)}%
-                      </p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="flex items-center justify-center mb-2">
-                        <Clock className="h-6 w-6 text-teal-500 mr-2" />
-                        <span className="text-sm text-gray-500">Last Updated</span>
-                      </div>
-                      <p className="text-lg text-gray-600">{lastUpdated}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white rounded-xl p-6 shadow-md">
-                  <div className="text-center">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Conversion Result</h3>
-                    <div className="flex items-center justify-center space-x-4">
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-gray-900">
-                          {cryptoAmount} {selectedCrypto.symbol.toUpperCase()}
-                        </p>
-                      </div>
-                      <ArrowDownUp className="h-6 w-6 text-teal-500" />
-                      <div className="text-left">
-                        <p className="text-2xl font-bold text-teal-600">
-                          {selectedFiat.symbol}{fiatAmount} {selectedFiat.code}
-                        </p>
-                      </div>
+                {/* Market Info Cards */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-white rounded-lg p-4 shadow-md">
+                    <div className="flex items-center justify-center mb-2">
+                      <BarChart3 className="h-6 w-6 text-teal-500 mr-2" />
+                      <span className="text-sm text-gray-500">Exchange Rate</span>
                     </div>
+                    <p className="text-lg font-bold text-gray-900 text-center">
+                      1 {selectedCrypto.symbol.toUpperCase()} =
+                    </p>
+                    <p className="text-2xl font-bold text-teal-600 text-center">
+                      {selectedFiat.symbol}{formatNumberWithCommas(exchangeRate * selectedFiat.rate)} {selectedFiat.code}
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4 shadow-md">
+                    <div className="flex items-center justify-center mb-2">
+                      {selectedCrypto.price_change_percentage_24h >= 0 ? (
+                        <TrendingUp className="h-6 w-6 text-green-500 mr-2" />
+                      ) : (
+                        <TrendingDown className="h-6 w-6 text-red-500 mr-2" />
+                      )}
+                      <span className="text-sm text-gray-500">24h Change</span>
+                    </div>
+                    <p className={`text-2xl font-bold text-center ${
+                      selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'
+                    }`}>
+                      {selectedCrypto.price_change_percentage_24h >= 0 ? '+' : ''}
+                      {selectedCrypto.price_change_percentage_24h.toFixed(2)}%
+                    </p>
+                  </div>
+
+                  <div className="bg-white rounded-lg p-4 shadow-md">
+                    <div className="flex items-center justify-center mb-2">
+                      <Clock className="h-6 w-6 text-teal-500 mr-2" />
+                      <span className="text-sm text-gray-500">Last Updated</span>
+                    </div>
+                    <p className="text-lg text-gray-600 text-center">{lastUpdated}</p>
                   </div>
                 </div>
               </div>

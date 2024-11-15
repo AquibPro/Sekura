@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -22,6 +22,8 @@ import ContributeSection from './components/ContributeSection';
 import NewsAndBlogs from './components/NewsAndBlogs';
 import CryptoMarket from './components/CryptoMarket';
 import CoinDetails from './pages/CoinDetails';
+import MobileAlert from './components/MobileAlert';
+import { initializeAnalytics, trackPageView } from './utils/analytics';
 
 function ScrollToTop() {
   const location = useLocation();
@@ -40,17 +42,37 @@ function ScrollToTop() {
     } else {
       window.scrollTo(0, 0);
     }
+
+    // Track page view
+    trackPageView(location.pathname);
   }, [location.pathname, state]);
 
   return null;
 }
 
 function App() {
+  const [showMobileAlert, setShowMobileAlert] = useState(false);
+
+  useEffect(() => {
+    // Initialize Google Analytics
+    initializeAnalytics();
+
+    const checkDevice = () => {
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+      setShowMobileAlert(isMobile);
+    };
+
+    checkDevice();
+  }, []);
+
   return (
     <Router>
       <div className="min-h-screen bg-gray-50">
         <ScrollToTop />
         <Navbar />
+        <MobileAlert isOpen={showMobileAlert} onClose={() => setShowMobileAlert(false)} />
         <Routes>
           <Route path="/" element={
             <>
